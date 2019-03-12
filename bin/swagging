@@ -20,7 +20,7 @@ const callerPackage = require(path.join(cwd, 'package.json'));
 const { name: callerPackageName } = callerPackage;
 const workingPath = helpers.resolveWorkingPath(name, callerPackageName);
 
-const std = execa.shell(`npm-run gulp --gulpfile ${workingPath}gulpfile.js & npm-run swagger project edit ${workingPath} & npm-run http-server -o -p 3000 ${workingPath}public/ui -c-1`);
+const std = execa.shell(`npm-run gulp --gulpfile ${workingPath}gulpfile.js & sleep 2 && npm-run swagger project edit ${workingPath} & sleep 10 && npm-run http-server -o -p 3000 ${workingPath}public/ui -c-1`);
 
 std.stdout.on('data', function (data) {
   console.log(`${displayName} says:`, data.toString());
