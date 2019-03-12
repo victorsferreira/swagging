@@ -1,12 +1,11 @@
 const gulp = require('gulp');
 const gulpYamlToJson = require('gulp-yaml');
-const path = require('path');
-const cwd = process.cwd();
+const helpers = require('./helpers');
 
-const targetYaml = path.join(cwd, 'swagger.yaml');
+const targetYamlPath = helpers.getTargetYamlPath();
 
 function symlinkYaml() {
-    return gulp.src(targetYaml).pipe(gulp.symlink('./api/swagger'));
+    return gulp.src(targetYamlPath).pipe(gulp.symlink('./api/swagger'));
 }
 
 function convertYamlToJson() {

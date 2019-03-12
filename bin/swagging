@@ -1,15 +1,26 @@
 #!/usr/bin/env node
+
 const cwd = process.cwd();
 const execa = require('execa');
 const path = require('path');
+const fs = require('fs');
 const config = require('../package');
-const callerPackage = require(path.join(cwd, 'package.json'));
+const helpers = require('../helpers');
 
 const { displayName, name } = config;
-const { name: callerPackageName } = callerPackage;
-const workingPath = resolveWorkingPath(name, callerPackageName);
+const targetYamlPath = helpers.getTargetYamlPath();
 
-const std = execa.shell(`${workingPath}node_modules/.bin/gulp --gulpfile ${workingPath}gulpfile.js & ${workingPath}node_modules/.bin/swagger project edit ${workingPath} & ${workingPath}node_modules/.bin/http-server -o -p 3000 ${workingPath}public/ui -c-1`);
+if (!fs.existsSync(targetYamlPath)) {
+  console.log(`${displayName} found a critical error:`, 'There is no swagger.yaml file in the root path. Fix it and try again.');
+  process.exit();
+}
+
+const callerPackage = require(path.join(cwd, 'package.json'));
+
+const { name: callerPackageName } = callerPackage;
+const workingPath = helpers.resolveWorkingPath(name, callerPackageName);
+
+const std = execa.shell(`npm-run gulp --gulpfile ${workingPath}gulpfile.js & npm-run swagger project edit ${workingPath} & npm-run http-server -o -p 3000 ${workingPath}public/ui -c-1`);
 
 std.stdout.on('data', function (data) {
   console.log(`${displayName} says:`, data.toString());
@@ -22,11 +33,3 @@ std.stderr.on('data', function (data) {
 std.on('exit', function (code) {
   console.log(`${displayName} finished working:`, code.toString());
 });
-
-function resolveWorkingPath(name, callerPackageName) {
-  const itIsCaller = name === callerPackageName;
-  const workingPath = ['./'];
-  if (!itIsCaller) workingPath.push('node_modules/',name+'/');
-
-  return workingPath.join('');
-}

@@ -1,7 +1,7 @@
 {
   "name": "swagging",
   "displayName": "Swagging",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,7 @@
     "gulp-watch": "^5.0.1",
     "gulp-yaml": "^2.0.3",
     "http-server": "^0.11.1",
+    "npm-run": "^5.0.1",
     "swagger": "^0.7.5",
     "swagger-editor": "^3.6.25"
   }
