@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+const cwd = process.cwd();
+const execa = require('execa');
+const path = require('path');
+const config = require('../package');
+const callerPackage = require(path.join(cwd, 'package.json'));
+
+const { displayName, name } = config;
+const { name: callerPackageName } = callerPackage;
+const workingPath = resolveWorkingPath(name, callerPackageName);
+
+const std = execa.shell(`${workingPath}node_modules/.bin/gulp --gulpfile ${workingPath}gulpfile.js & ${workingPath}node_modules/.bin/swagger project edit ${workingPath} & ${workingPath}node_modules/.bin/http-server -o -p 3000 ${workingPath}public/ui -c-1`);
+
+std.stdout.on('data', function (data) {
+  console.log(`${displayName} says:`, data.toString());
+});
+
+std.stderr.on('data', function (data) {
+  console.log(`${displayName} found an error:`, data.toString());
+});
+
+std.on('exit', function (code) {
+  console.log(`${displayName} finished working:`, code.toString());
+});
+
+function resolveWorkingPath(name, callerPackageName) {
+  const itIsCaller = name === callerPackageName;
+  const workingPath = ['./'];
+  if (!itIsCaller) workingPath.push('node_modules/','docs/');
+
+  return workingPath.join('');
+}
