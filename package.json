@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "bin": {
-    "docs": "./bin/swagging"
+    "swagging": "./bin/swagging"
   },
   "dependencies": {
     "execa": "^1.0.0",
