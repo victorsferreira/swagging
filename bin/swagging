@@ -26,7 +26,7 @@ std.on('exit', function (code) {
 function resolveWorkingPath(name, callerPackageName) {
   const itIsCaller = name === callerPackageName;
   const workingPath = ['./'];
-  if (!itIsCaller) workingPath.push('node_modules/','docs/');
+  if (!itIsCaller) workingPath.push('node_modules/',name+'/');
 
   return workingPath.join('');
 }
