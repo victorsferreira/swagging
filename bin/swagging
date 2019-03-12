@@ -11,7 +11,6 @@ const { displayName } = config;
 const targetYamlPath = helpers.getTargetYamlPath();
 
 if (!fs.existsSync(targetYamlPath)) {
-  console.log('>>>>>>>>>>', targetYamlPath)
   console.log(`${displayName} found a critical error:`, 'There is no swagger.yaml file in the root path. Fix it and try again.');
   process.exit();
 }
