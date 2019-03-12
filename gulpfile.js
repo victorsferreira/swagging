@@ -5,17 +5,17 @@ const helpers = require('./helpers');
 const targetYamlPath = helpers.getTargetYamlPath();
 
 function symlinkYaml() {
-    return gulp.src(targetYamlPath).pipe(gulp.symlink('./api/swagger'));
+    return gulp.src(targetYamlPath).pipe(gulp.symlink(`${helpers.moduleDir}/api/swagger`));
 }
 
 function convertYamlToJson() {
-    return gulp.src('./api/swagger/swagger.yaml')
+    return gulp.src(`${helpers.moduleDir}/api/swagger/swagger.yaml`)
         .pipe(gulpYamlToJson())
-        .pipe(gulp.dest('./public/ui'));
+        .pipe(gulp.dest(`${helpers.moduleDir}/public/ui`));
 }
 
 function watchYaml() {
-    gulp.watch("api/swagger/swagger.yaml", convertYamlToJson);
+    gulp.watch(`${helpers.moduleDir}/api/swagger/swagger.yaml`, convertYamlToJson);
 }
 
 exports.default = gulp.series(symlinkYaml, watchYaml);
