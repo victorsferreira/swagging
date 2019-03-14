@@ -1,3 +1,5 @@
 node_modules
 api/swagger/swagger.yaml
 public/ui/swagger.json
+npm-debug.log
+package-lock.json

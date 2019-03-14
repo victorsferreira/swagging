@@ -10,6 +10,20 @@ const dirPattern = '/node_modules/swagging/';
 const parentDir = resolveParentDir();
 const moduleDir = resolveModuleDir();
 
+function getParams(args, defaultValues = {}) {
+    const params = {};
+    for (let i = 0, l = args.length; i < l; i++) {
+        if (args[i].substr(0, 2) === '--') {
+            // It's an argument
+            params[args[i].substr(2)] = args[i + 1];
+            // Skip next arg
+            i++;
+        }
+    }
+
+    return { ...defaultValues, ...params };
+}
+
 function resolveParentDir() {
     const tempPath = cwd + '/';
     return removeExtraSlashes(tempPath.replace(dirPattern, ''));
@@ -22,17 +36,17 @@ function resolveModuleDir() {
 }
 
 function removeExtraSlashes(fullPath) {
-    if(fullPath.substr(-1) === '/') fullPath = fullPath.slice(0, -1);
+    if (fullPath.substr(-1) === '/') fullPath = fullPath.slice(0, -1);
     return path.normalize(fullPath);
 }
 
-function getTargetYamlPath() {
+function getTargetYamlPath(pathFromRoot = 'swagger.yaml') {
     let targetPath;
 
     if (isDev) targetPath = moduleDir;
     else targetPath = parentDir;
 
-    return path.join(targetPath, 'swagger.yaml');
+    return path.join(targetPath, pathFromRoot);
 };
 
 function resolveWorkingPath() {
@@ -49,3 +63,4 @@ module.exports.getTargetYamlPath = getTargetYamlPath;
 module.exports.resolveWorkingPath = resolveWorkingPath;
 module.exports.parentDir = parentDir;
 module.exports.moduleDir = moduleDir;
+module.exports.getParams = getParams;
