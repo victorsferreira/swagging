@@ -1,21 +1,20 @@
 #!/usr/bin/env node
 
-const cwd = process.cwd();
 const execa = require('execa');
-const path = require('path');
 const fs = require('fs');
 const config = require('../package');
 const helpers = require('../helpers');
+const params = require('../params');
 
 const { displayName } = config;
-const targetYamlPath = helpers.getTargetYamlPath();
+const targetYamlPath = helpers.getTargetYamlPath(params['swagger']);
 
 if (!fs.existsSync(targetYamlPath)) {
   console.log(`${displayName} found a critical error:`, 'There is no swagger.yaml file in the root path. Fix it and try again.');
-  process.exit();
+  process.exit(1);
 }
 
-const std = execa.shell(`npm-run gulp --gulpfile ${helpers.moduleDir}/gulpfile.js & sleep 2 && npm-run swagger project edit ${helpers.moduleDir}/ & sleep 10 && npm-run http-server -o -p 3000 ${helpers.moduleDir}/public/ui -c-1`);
+const std = execa.shell(`npm-run gulp ${params.toString()} --gulpfile ${helpers.moduleDir}/gulpfile.js & sleep 2 && npm-run swagger project edit ${helpers.moduleDir}/ & sleep 12 && npm-run http-server -o -p ${params['ui-port']} ${helpers.moduleDir}/public/ui -c-1`);
 
 std.stdout.on('data', function (data) {
   console.log(`${displayName} says:`, data.toString());
