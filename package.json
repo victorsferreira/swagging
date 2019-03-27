@@ -1,7 +1,7 @@
 {
   "name": "swagging",
   "displayName": "Swagging",
-  "version": "0.0.6",
+  "version": "0.9.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,8 +10,17 @@
     "dev": "NODE_ENV=development ./bin/swagging",
     "postinstall": "echo \"{}\" > public/ui/swagger.json; echo \"\" > api/swagger/swagger.yaml"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "swagger",
+    "openapi",
+    "documentation",
+    "docs"
+  ],
+  "author": "Victor Ferreira <victorferreirait@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/victorsferreira/swagging"
+  },
   "license": "ISC",
   "bin": {
     "swagging": "./bin/swagging"
