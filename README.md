@@ -11,11 +11,16 @@ Swagging is installed along with the project as a development dependency so you 
 ## Quick Usage
 
 - Create a `swagger.yaml` file in the root of your project
+
 - Create a **npm script** in `package.json`
  
       "scripts": {
 		"swagging": "swagging"
 	  }
+
+- Run the script
+      
+      $ npm run swagging
 
 If everything goes well two new browser tabs will open displaying Swagger Editor and Swagger UI. If it doesn't, check for the console output, you may need to copy and paste the provided URLs.
 
