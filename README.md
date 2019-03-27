@@ -6,7 +6,7 @@ Swagging is installed along with the project as a development dependency so you 
 
 ## Installation 
 
-    npm i -D swagging
+    $ npm i -D swagging
 
 ## Quick Usage
 
@@ -21,8 +21,14 @@ If everything goes well two new browser tabs will open displaying Swagger Editor
 
 ## Reference
 
+	$ swagging [options]    
+
 As for now Swagging can understand two optional parameters: 
 
 - `swagger`:  Path for the Swagger file in [YAML](https://yaml.org/) format. **Default:** _./swagger.yaml_
 
 - `ui-port`:  To specify the port of Swagger UI server. **Default:** _3010_
+
+### Example
+
+	$ swagging --swagger ./docs/swagger.yml --ui-port 3011
