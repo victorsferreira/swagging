@@ -3,7 +3,7 @@ const del = require('del');
 const gulpYamlToJson = require('gulp-yaml');
 const gulpSymlink = require('gulp-symlink');
 const helpers = require('./helpers');
-const params = require('./params');
+const params = {swagger: process.env.SWAGGER};
 
 const targetYamlPath = helpers.getTargetYamlPath(params['swagger']);
 

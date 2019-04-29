@@ -4,17 +4,30 @@ const execa = require('execa');
 const fs = require('fs');
 const config = require('../package');
 const helpers = require('../helpers');
-const params = require('../params');
+const cli = require('commander');
+
+cli
+  .version(config.version)
+  .option('-ui, --ui-port <n>', 'Swagger UI port', 3010)
+  .option('-ep, --editor-port <n>', 'Swagger Editor port', 3030)
+  .option('-s, --swagger [path]', 'Path where Swagger file should be loaded from', 'swagger.yaml')
+  .parse(process.argv);
 
 const { displayName } = config;
-const targetYamlPath = helpers.getTargetYamlPath(params['swagger']);
+const targetYamlPath = helpers.getTargetYamlPath(cli['swagger']);
 
 if (!fs.existsSync(targetYamlPath)) {
-  console.log(`${displayName} found a critical error:`, 'There is no swagger.yaml file in the root path. Fix it and try again.');
+  console.log(`${displayName} found a critical error:`, 'There is no swagger.yaml file in the root path. Please, fix it and try again.');
   process.exit(1);
 }
 
-const std = execa.shell(`npm-run gulp ${params.toString()} --gulpfile ${helpers.moduleDir}/gulpfile.js & sleep 2 && npm-run swagger project edit ${helpers.moduleDir}/ & sleep 12 && npm-run http-server -o -p ${params['ui-port']} ${helpers.moduleDir}/public/ui -c-1`);
+const std = execa.shell(`
+  SWAGGER=${cli['swagger']} EDITOR_PORT=${cli['editor-port']} UI_PORT=${cli['ui-port']} npm-run gulp --gulpfile ${helpers.moduleDir}/gulpfile.js &&
+  wait-on ${helpers.moduleDir}/api/swagger/swagger.yaml -t 3000 &&
+  npm-run swagger project edit ${helpers.moduleDir}/ -p ${cli['editor-port']} & 
+  wait-on http://localhost:${cli['editor-port']} -t 12000 &&
+  npm-run http-server -o -p ${cli['ui-port']} ${helpers.moduleDir}/public/ui -c-1
+`);
 
 std.stdout.on('data', function (data) {
   console.log(`${displayName} says:`, data.toString());

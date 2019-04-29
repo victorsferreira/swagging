@@ -2,7 +2,7 @@
   "name": "swagging",
   "displayName": "Swagging",
   "version": "0.9.1",
-  "description": "",
+  "description": "Swagging is a tool that makes it easier to write and display the documentation of your API's. It runs a [Swagger Editor](https://swagger.io/tools/swagger-editor/) and [Swagger UI](https://swagger.io/tools/swagger-ui/) instances locally so that you can see it as you make it.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,7 +19,7 @@
   "author": "Victor Ferreira <victorferreirait@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/victorsferreira/swagging"
+    "url": "git+https://github.com/victorsferreira/swagging.git"
   },
   "license": "ISC",
   "bin": {
@@ -36,6 +36,12 @@
     "http-server": "^0.11.1",
     "npm-run": "^5.0.1",
     "swagger": "^0.7.5",
-    "swagger-editor": "^3.6.25"
-  }
+    "swagger-editor": "^3.6.25",
+    "wait-on": "^3.2.0"
+  },
+  "bugs": {
+    "url": "https://github.com/victorsferreira/swagging/issues"
+  },
+  "homepage": "https://github.com/victorsferreira/swagging#readme",
+  "devDependencies": {}
 }
